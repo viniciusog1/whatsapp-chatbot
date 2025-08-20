@@ -32,8 +32,8 @@ def handle_message(user_message, from_number):
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="📘 Aqui está nosso catálogo completo da Schipper:",
-            media_url=CATALOGO_URL
+            body=f"📘 Aqui está nosso catálogo completo da Schipper:"
+                 f"{CATALOGO_URL}"
         )
 
     # Menu principal
@@ -45,8 +45,8 @@ def handle_message(user_message, from_number):
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="📘 Aqui está nosso catálogo completo:",
-            media_url=CATALOGO_URL
+            body=f"📘 Aqui está nosso catálogo completo da Schipper:"
+                 f"{CATALOGO_URL}"
         )
 
     elif text in ["2", "talheres"]:
