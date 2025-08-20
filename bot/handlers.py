@@ -32,7 +32,7 @@ def handle_message(user_message, from_number):
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body=f"📘 Aqui está nosso catálogo completo da Schipper:"
+            body=f"📘 Aqui está nosso catálogo completo da Schipper:\n\n"
                  f"{CATALOGO_URL}"
         )
 
@@ -45,30 +45,30 @@ def handle_message(user_message, from_number):
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body=f"📘 Aqui está nosso catálogo completo da Schipper:"
+            body=f"📘 Aqui está nosso catálogo completo da Schipper:\n\n"
                  f"{CATALOGO_URL}"
         )
 
-    elif text in ["2", "talheres"]:
+    elif text in ["2", "redes sociais"]:
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="🍴 *TALHERES SCHIPPER*\n\n"
-                 "Trabalhamos com linhas completas de inox e prata:\n"
-                 "• Tramontina 🇧🇷\n"
-                 "• WMF (Alemanha) 🇩🇪\n\n"
+            body="🌎 *REDES SOCIAIS — SCHIPPER*\n\n"
+                 "Siga a Schipper nas redes sociais!\n"
+                 "Instagram: https://www.instagram.com/schipperbrasil/\n"
+                 "Facebook: https://www.facebook.com/schipperbrasil\n"
+                 "YouTube: https://www.youtube.com/user/schipperbrasil\n"
+                 "LinkedIn: https://www.linkedin.com/company/schipperbrasil/\n\n"
                  "Digite *menu* para voltar."
         )
 
-    elif text in ["3", "copos", "taças"]:
+    elif text in ["3", "site"]:
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="🍷 *COPOS E TAÇAS SCHIPPER*\n\n"
-                 "Opções em cristal, vidro e policarbonato.\n"
-                 "Fornecedores:\n"
-                 "• Schott Zwiesel 🇩🇪\n"
-                 "• Nacionais variados 🇧🇷\n\n"
+            body="🌐 *CONFIRA NOSSO SITE*\n\n"
+                 "Site da Schipper!\n"
+                 "https://schipperbrasil.com.br/\n"
                  "Digite *menu* para voltar."
         )
 
@@ -111,8 +111,8 @@ def handle_message(user_message, from_number):
             from_=twilio_number,
             to=from_number,
             body="🤝 *SUPORTE SCHIPPER*\n\n"
-                 "📞 Telefone: (11) 3333-3333\n"
-                 "📧 Email: suporte@schipper.com.br\n"
+                 "📞 Telefone: (61) 3251-8000\n"
+                 "📧 Email: sac@schipperbrasil.com.br\n"
                  "Digite *menu* para voltar."
         )
 
