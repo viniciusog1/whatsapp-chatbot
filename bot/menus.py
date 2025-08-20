@@ -4,11 +4,11 @@ def termos_de_uso_menu(client, twilio_number, from_number):
     client.messages.create(
         from_=twilio_number,
         to=from_number,
-        body="🤖 *Bem-vindo ao nosso chatbot!*\n\n"
-             "Antes de continuar, você concorda com nossos termos de uso?\n\n"
-             "Digite:\n"
-             "• *concordo* - para aceitar\n"
-             "• *não concordo* - para recusar"
+        body="🤖 *Bem-vindo ao assistente virtual da Schipper!*\n\n"
+             "Fornecemos produtos de alto padrão para hotéis, bares e restaurantes 🍽️\n\n"
+             "Antes de continuar, digite:\n"
+             "• *catalogo* → para receber nosso catálogo em PDF\n"
+             "• *menu* → para acessar nosso menu interativo"
     )
 
 def menu_principal(client, twilio_number, from_number):
@@ -16,15 +16,11 @@ def menu_principal(client, twilio_number, from_number):
     client.messages.create(
         from_=twilio_number,
         to=from_number,
-        body="🏪 *MENU PRINCIPAL*\n"
+        body="🏪 *MENU PRINCIPAL — SCHIPPER*\n"
              "Selecione uma das opções digitando o número:\n\n"
-             "*1* - Promoções Retornáveis ✨\n"
-             "*2* - Loja Virtual 🛍️\n"  
+             "*1* - Catálogo em PDF ✨\n"
+             "*2* - Fornecedores 🛍️\n"  
              "*3* - Ajuda e Suporte 🤝\n"
-             "*4* - Trabalhe Conosco 👨‍💻\n"
-             "*5* - Informações ℹ️\n"
-             "*6* - Reclamações ⚠️\n"
-             "*7* - Deixar Opinião ✍️\n\n"
              "_Digite o número da opção desejada_"
     )
 

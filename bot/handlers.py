@@ -5,8 +5,11 @@ from bot.menus import termos_de_uso_menu, menu_principal
 # Config Twilio
 account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
 auth_token = os.environ.get("TWILIO_AUTH_TOKEN")
-twilio_number = "whatsapp:+14155238886"  # Número do sandbox do Twilio
+twilio_number = "whatsapp:+14155238886"  # Número sandbox Twilio
 client = Client(account_sid, auth_token)
+
+# 🔹 URL do catálogo hospedado (suba em Render, S3, etc.)
+CATALOGO_URL = "https://schipperbrasil.com.br/downloads/catalogo_schipper/Cat_Schipper_low.pdf"
 
 
 def handle_message(user_message, from_number):
@@ -24,160 +27,99 @@ def handle_message(user_message, from_number):
     if any(palavra in text for palavra in ["oi", "olá", "ola", "hello", "iniciar", "começar"]):
         termos_de_uso_menu(client, twilio_number, from_number)
 
-    # Termos de uso
-    elif "concordo" in text:
+    # Catálogo direto
+    elif "catalogo" in text:
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="✅ Obrigado por aceitar nossos termos!\n\n"
-                 "Agora você pode acessar todos os recursos:"
+            body="📘 Aqui está nosso catálogo completo da Schipper:",
+            media_url=CATALOGO_URL
         )
+
+    # Menu principal
+    elif "menu" in text:
         menu_principal(client, twilio_number, from_number)
 
-    elif "não concordo" in text or "nao concordo" in text:
+    # Opções do menu
+    elif text in ["1"]:
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="❌ Sem problemas! \n\n"
-                 "Você pode retornar quando quiser digitando *oi*.\n"
-                 "Tenha um ótimo dia! 👋"
+            body="📘 Aqui está nosso catálogo completo:",
+            media_url=CATALOGO_URL
         )
 
-    # Opções do menu principal
-    elif text in ["1", "promo", "promocao", "promoção"]:
-        handle_promocoes(client, twilio_number, from_number)
+    elif text in ["2", "talheres"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🍴 *TALHERES SCHIPPER*\n\n"
+                 "Trabalhamos com linhas completas de inox e prata:\n"
+                 "• Tramontina 🇧🇷\n"
+                 "• WMF (Alemanha) 🇩🇪\n\n"
+                 "Digite *menu* para voltar."
+        )
 
-    elif text in ["2", "loja", "comprar"]:
-        handle_loja(client, twilio_number, from_number)
+    elif text in ["3", "copos", "taças"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🍷 *COPOS E TAÇAS SCHIPPER*\n\n"
+                 "Opções em cristal, vidro e policarbonato.\n"
+                 "Fornecedores:\n"
+                 "• Schott Zwiesel 🇩🇪\n"
+                 "• Nacionais variados 🇧🇷\n\n"
+                 "Digite *menu* para voltar."
+        )
 
-    elif text in ["3", "ajuda", "suporte", "help"]:
-        handle_ajuda(client, twilio_number, from_number)
+    elif text in ["4", "pratos", "travessas"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🍽️ *PRATOS E TRAVESSAS SCHIPPER*\n\n"
+                 "Coleções em porcelana e cerâmica:\n"
+                 "• Bonna 🇹🇷\n"
+                 "• Porto Brasil 🇧🇷\n\n"
+                 "Digite *menu* para voltar."
+        )
 
-    elif text in ["4", "trabalhar", "vagas", "emprego"]:
-        handle_trabalho(client, twilio_number, from_number)
+    elif text in ["5", "panelas", "utensilios"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🍲 *PANELAS E UTENSÍLIOS SCHIPPER*\n\n"
+                 "Linha profissional e doméstica de alta qualidade:\n"
+                 "• Tramontina 🇧🇷\n"
+                 "• WMF (Alemanha) 🇩🇪\n\n"
+                 "Digite *menu* para voltar."
+        )
 
-    elif text in ["5", "info", "informações", "informacoes"]:
-        handle_informacoes(client, twilio_number, from_number)
+    elif text in ["6", "fornecedores", "marcas"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🏷️ *PRINCIPAIS FORNECEDORES SCHIPPER*\n\n"
+                 "• Tramontina 🇧🇷\n"
+                 "• Bonna 🇹🇷\n"
+                 "• WMF 🇩🇪\n"
+                 "• Porto Brasil 🇧🇷\n\n"
+                 "Digite *menu* para voltar."
+        )
 
-    elif text in ["6", "reclamacao", "reclamação", "problema"]:
-        handle_reclamacao(client, twilio_number, from_number)
-
-    elif text in ["7", "opiniao", "opinião", "feedback"]:
-        handle_opiniao(client, twilio_number, from_number)
-
-    elif text in ["menu", "voltar", "inicio"]:
-        menu_principal(client, twilio_number, from_number)
+    elif text in ["7", "ajuda", "suporte"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🤝 *SUPORTE SCHIPPER*\n\n"
+                 "📞 Telefone: (11) 3333-3333\n"
+                 "📧 Email: suporte@schipper.com.br\n"
+                 "Digite *menu* para voltar."
+        )
 
     else:
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="❓ Desculpe, não entendi sua mensagem.\n\n"
-                 "Digite:\n"
-                 "• *oi* - para começar\n"
-                 "• *menu* - para ver as opções\n"
-                 "• *ajuda* - para suporte"
+            body="❓ Não entendi sua mensagem.\n\n"
+                 "Digite *menu* para acessar as opções ou *catalogo* para receber o PDF."
         )
-
-
-# Funções para cada opção do menu
-def handle_promocoes(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="✨ *PROMOÇÕES ESPECIAIS*\n\n"
-             "🔥 Confira nossas ofertas imperdíveis:\n\n"
-             "• Produto A - 30% OFF\n"
-             "• Produto B - Frete Grátis\n"
-             "• Produto C - Leve 3 Pague 2\n\n"
-             "Digite *menu* para voltar ou *loja* para comprar"
-    )
-
-
-def handle_loja(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="🛍️ *NOSSA LOJA VIRTUAL*\n\n"
-             "Acesse nossa loja em:\n"
-             "🔗 www.sualojaonline.com.br\n\n"
-             "Ou fale com um consultor:\n"
-             "📱 (11) 99999-9999\n\n"
-             "Digite *menu* para voltar"
-    )
-
-
-def handle_ajuda(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="🤝 *CENTRAL DE AJUDA*\n\n"
-             "Como posso te ajudar?\n\n"
-             "• Dúvidas sobre produtos\n"
-             "• Status do pedido\n"
-             "• Trocas e devoluções\n"
-             "• Suporte técnico\n\n"
-             "📞 Atendimento: (11) 3333-3333\n"
-             "📧 Email: suporte@empresa.com\n\n"
-             "Digite *menu* para voltar"
-    )
-
-
-def handle_trabalho(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="👨‍💻 *TRABALHE CONOSCO*\n\n"
-             "Vagas disponíveis:\n\n"
-             "• Desenvolvedor Python\n"
-             "• Analista de Marketing\n"
-             "• Atendente de Chat\n\n"
-             "📄 Envie seu currículo para:\n"
-             "rh@empresa.com\n\n"
-             "Digite *menu* para voltar"
-    )
-
-
-def handle_informacoes(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="ℹ️ *INFORMAÇÕES DA EMPRESA*\n\n"
-             "🏢 Sobre nós:\n"
-             "Empresa líder em soluções digitais\n\n"
-             "📍 Endereço:\n"
-             "Rua das Flores, 123 - São Paulo/SP\n\n"
-             "🕒 Horário de funcionamento:\n"
-             "Segunda a Sexta: 8h às 18h\n\n"
-             "Digite *menu* para voltar"
-    )
-
-
-def handle_reclamacao(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="⚠️ *CANAL DE RECLAMAÇÕES*\n\n"
-             "Lamentamos pelos problemas!\n\n"
-             "Para abrir um chamado:\n"
-             "📧 reclamacoes@empresa.com\n"
-             "📱 WhatsApp: (11) 8888-8888\n\n"
-             "Ou acesse:\n"
-             "🔗 www.empresa.com.br/suporte\n\n"
-             "Digite *menu* para voltar"
-    )
-
-
-def handle_opiniao(client, twilio_number, from_number):
-    client.messages.create(
-        from_=twilio_number,
-        to=from_number,
-        body="✍️ *SUA OPINIÃO É IMPORTANTE*\n\n"
-             "Deixe seu feedback:\n\n"
-             "📝 Formulário online:\n"
-             "www.empresa.com.br/feedback\n\n"
-             "⭐ Avalie-nos no Google:\n"
-             "Link: bit.ly/avaliar-empresa\n\n"
-             "📧 Email: feedback@empresa.com\n\n"
-             "Digite *menu* para voltar"
-    )
