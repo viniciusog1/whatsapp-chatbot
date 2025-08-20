@@ -33,7 +33,8 @@ def handle_message(user_message, from_number):
             from_=twilio_number,
             to=from_number,
             body=f"📘 Aqui está nosso catálogo completo da Schipper:\n\n"
-                 f"{CATALOGO_URL}"
+                 f"{CATALOGO_URL}\n"
+                 "Digite *menu* para voltar."
         )
 
     # Menu principal
@@ -46,7 +47,8 @@ def handle_message(user_message, from_number):
             from_=twilio_number,
             to=from_number,
             body=f"📘 Aqui está nosso catálogo completo da Schipper:\n\n"
-                 f"{CATALOGO_URL}"
+                 f"{CATALOGO_URL}\n"
+                 "Digite *menu* para voltar."
         )
 
     elif text in ["2", "redes sociais"]:
@@ -55,10 +57,10 @@ def handle_message(user_message, from_number):
             to=from_number,
             body="🌎 *REDES SOCIAIS — SCHIPPER*\n\n"
                  "Siga a Schipper nas redes sociais!\n"
-                 "Instagram: https://www.instagram.com/schipperbrasil/\n"
-                 "Facebook: https://www.facebook.com/schipperbrasil\n"
-                 "YouTube: https://www.youtube.com/user/schipperbrasil\n"
-                 "LinkedIn: https://www.linkedin.com/company/schipperbrasil/\n\n"
+                 "🟧 *Instagram:* https://www.instagram.com/schipperbrasil/\n\n"
+                 "🟦 *Facebook:* https://www.facebook.com/schipperbrasil\n\n"
+                 "🟥 *YouTube:* https://www.youtube.com/user/schipperbrasil\n\n"
+                 "⬛ *LinkedIn:* https://www.linkedin.com/company/schipperbrasil/\n\n"
                  "Digite *menu* para voltar."
         )
 
