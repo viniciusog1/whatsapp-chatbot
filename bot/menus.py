@@ -1,7 +1,8 @@
-def termos_de_uso_menu(msg):
-    msg.payload({
-        "type": "interactive",
-        "interactive": {
+def termos_de_uso_menu(client, twilio_number, from_number):
+    client.messages.create(
+        from_=twilio_number,
+        to=from_number,
+        interactive={
             "type": "button",
             "body": {"text": "Você concorda com nossos termos de uso?"},
             "action": {
@@ -11,21 +12,22 @@ def termos_de_uso_menu(msg):
                 ]
             }
         }
-    })
+    )
 
-def menu_principal(msg):
-    msg.payload({
-        "type": "interactive",
-        "interactive": {
+def menu_principal(client, twilio_number, from_number):
+    client.messages.create(
+        from_=twilio_number,
+        to=from_number,
+        interactive={
             "type": "list",
-            "header": {"type": "text", "text": "Escolha aqui"},
+            "header": {"type": "text", "text": "Menu Principal"},
             "body": {"text": "Selecione uma das opções abaixo 👇"},
             "footer": {"text": "Assistente Virtual"},
             "action": {
                 "button": "Ver opções",
                 "sections": [
                     {
-                        "title": "Menu Principal",
+                        "title": "Opções",
                         "rows": [
                             {"id": "promo", "title": "Promo Retornável ✨", "description": "Veja promoções"},
                             {"id": "loja", "title": "Loja 🛍️", "description": "Compre online"},
@@ -39,4 +41,4 @@ def menu_principal(msg):
                 ]
             }
         }
-    })
+    )
