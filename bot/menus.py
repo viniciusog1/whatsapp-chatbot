@@ -19,6 +19,7 @@ def menu_principal(client, twilio_number, from_number):
              "*1* - Catálogo em PDF 📘\n"
              "*2* - Redes Sociais 🌎\n"
              "*3* - Site 🌐\n"
-             "*4* - Ajuda e Suporte 🤝\n\n"
+             "*4* - Solicitar Atendimento 🕵️‍♀️\n"
+             "*5* - Ajuda e Suporte 🤝\n\n"
              "_Digite o número da opção desejada_"
     )

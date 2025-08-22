@@ -33,7 +33,7 @@ def handle_message(user_message, from_number):
             from_=twilio_number,
             to=from_number,
             body=f"📘 Aqui está nosso catálogo completo da Schipper:\n\n"
-                 f"{CATALOGO_URL}\n"
+                 f"{CATALOGO_URL}\n\n"
                  "Digite *menu* para voltar."
         )
 
@@ -57,10 +57,10 @@ def handle_message(user_message, from_number):
             to=from_number,
             body="🌎 *REDES SOCIAIS — SCHIPPER*\n\n"
                  "Siga a Schipper nas redes sociais!\n\n"
-                 "🟧 *Instagram:* https://instagram.com/schipperbrasil/\n\n"
+                 "🟧 *Instagram:* https://instagram.com/schipperbrasil\n\n"
                  "🟦 *Facebook:* https://facebook.com/schipperbrasil\n\n"
                  "🟥 *YouTube:* https://youtube.com/@schipperbrasil\n\n"
-                 "⬛ *LinkedIn:* https://linkedin.com/company/schipperbrasil/\n\n"
+                 "⬛ *LinkedIn:* https://linkedin.com/company/schipperbrasil\n\n"
                  "Digite *menu* para voltar."
         )
 
@@ -74,13 +74,33 @@ def handle_message(user_message, from_number):
                  "Digite *menu* para voltar."
         )
 
-    elif text in ["4", "ajuda", "suporte"]:
+    elif text in ["4", "atendimento"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🕵️‍♀️ *ATENDIMENTO SCHIPPER*\n\n"
+                 "Digite o tipo de atendimento desejado\n\n"
+                 "*Devolução* - Para verificar a Devolução \n\n"
+                 "*Acompanhamento* - Para verificar o acompanhamento de Devolução\n\n"
+                 "*Garantia* - Para verificar a garantia de Produtos\n\n"
+                 "Digite *menu* para voltar."
+        )
+
+    elif text in ["5", "ajuda", "suporte"]:
         client.messages.create(
             from_=twilio_number,
             to=from_number,
             body="🤝 *SUPORTE SCHIPPER*\n\n"
                  "📞 Telefone: (61) 3251-8000\n"
                  "📧 Email: sac@schipperbrasil.com.br\n\n"
+                 "Digite *menu* para voltar."
+        )
+
+    elif text in ["devolução", "devolucao"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="Tipo de atendimento solicitado: *Devolução*\n\n"
                  "Digite *menu* para voltar."
         )
 
