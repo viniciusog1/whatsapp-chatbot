@@ -13,6 +13,18 @@ CATALOGO_URL = "https://schipperbrasil.com.br/downloads/catalogo_schipper/Cat_Sc
 
 
 def handle_message(user_message, from_number):
+    # Mapeamento dinâmico de opções
+
+    atendimento_opcoes = {
+        "a1": "Devolução",
+        "devolucao": "Devolução",
+        "devolução": "Devolução",
+        "a2": "Acompanhamento de Devolução",
+        "acompanhamento": "Acompanhamento de Devolução",
+        "a3": "Garantia de Produtos",
+        "garantia": "Garantia de Produtos"
+    }
+
     if not user_message:
         client.messages.create(
             from_=twilio_number,
@@ -80,27 +92,18 @@ def handle_message(user_message, from_number):
             to=from_number,
             body="🕵️‍♀️ *ATENDIMENTO SCHIPPER*\n\n"
                  "Digite o tipo de atendimento desejado\n\n"
-                 "*Devolução* - Para verificar a Devolução \n\n"
-                 "*Acompanhamento* - Para verificar o acompanhamento de Devolução\n\n"
-                 "*Garantia* - Para verificar a garantia de Produtos\n\n"
+                 "*A1* - Devolução \n"
+                 "*A2* - Acompanhamento de Devolução\n"
+                 "*A3* - Garantia de Produtos\n\n"
                  "Digite *menu* para voltar."
         )
 
-    elif text in ["5", "ajuda", "suporte"]:
+    elif text in atendimento_opcoes:
+        atendimento_escolhido = atendimento_opcoes[text]
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="🤝 *SUPORTE SCHIPPER*\n\n"
-                 "📞 Telefone: (61) 3251-8000\n"
-                 "📧 Email: sac@schipperbrasil.com.br\n\n"
-                 "Digite *menu* para voltar."
-        )
-
-    elif text in ["devolução", "devolucao"]:
-        client.messages.create(
-            from_=twilio_number,
-            to=from_number,
-            body="Tipo de atendimento solicitado: *Devolução*\n\n"
+            body=f"Tipo de atendimento solicitado: *{atendimento_escolhido}*\n\n"
                  "Digite *menu* para voltar."
         )
 
