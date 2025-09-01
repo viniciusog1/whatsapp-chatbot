@@ -1,6 +1,6 @@
 import os
 from twilio.rest import Client
-from bot.menus_ import termos_de_uso_menu, menu_principal
+from bot.menus import termos_de_uso_menu, menu_principal
 
 # Config Twilio
 account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
