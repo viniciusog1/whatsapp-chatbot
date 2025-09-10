@@ -159,6 +159,7 @@ def handle_message(user_message, from_number):
         )
 
     elif text in ["7", "referência", 'referencia']:
+        user_state[from_number] = "pesquisa_ref"
         client.messages.create(
             from_=twilio_number,
             to=from_number,

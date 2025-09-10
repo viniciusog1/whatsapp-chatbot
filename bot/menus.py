@@ -23,8 +23,8 @@ def menu_principal(client, twilio_number, from_number):
              "*2* - Redes Sociais 🌎\n"
              "*3* - Site 🌐\n"
              "*4* - Solicitar Atendimento 🕵️‍♀️\n"
-             "*5* - Ajuda e Suporte 🤝\n\n"
-             "*6* - Conhecer a história da Schipper 📰\n\n"
+             "*5* - Ajuda e Suporte 🤝\n"
+             "*6* - Conhecer a história da Schipper 📰\n"
              "*7* - Pesquisar uma referência 🔎\n\n"
              "_Digite o número da opção desejada_"
     )
