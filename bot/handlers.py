@@ -1,6 +1,7 @@
 import os
 from twilio.rest import Client
 from bot.menus import termos_de_uso_menu, menu_principal
+from bot.db import db_connection   # nova conexão com Oracle
 
 # Config Twilio
 account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
@@ -11,10 +12,14 @@ client = Client(account_sid, auth_token)
 # 🔹 URL do catálogo hospedado (suba em Render, S3, etc.)
 CATALOGO_URL = "https://schipperbrasil.com.br/downloads/catalogo_schipper/Cat_Schipper_low.pdf"
 
+# Estado de usuários
+user_state = {}
 
 def handle_message(user_message, from_number):
     # Mapeamento dinâmico de opções
-
+    # ------------------------
+    # DICIONÁRIO DE ATENDIMENTO
+    # ------------------------
     atendimento_opcoes = {
         "a1": "Devolução",
         "devolucao": "Devolução",
@@ -34,6 +39,34 @@ def handle_message(user_message, from_number):
         return
 
     text = user_message.lower().strip()
+
+    # ------------------------
+    # ETAPA: PESQUISA DE REFERÊNCIA
+    # ------------------------
+    if user_state.get(from_number) == "pesquisa_ref":
+        ref = text.upper()
+        try:
+            conn = db_connection()
+            cur = conn.cursor()
+            cur.execute("SELECT descricao7 FROM pcprodut WHERE codprod = :ref", {"ref": ref})
+            row = cur.fetchone()
+            if row:
+                resposta = f"🔎 Referência *{ref}* encontrada:\n\n📌 {row[0]}"
+            else:
+                resposta = f"❌ Não encontrei nenhum produto com a referência *{ref}*."
+            cur.close()
+            conn.close()
+        except Exception as e:
+            resposta = f"⚠ Erro ao consultar banco: {e}"
+
+        # limpar estado
+        user_state[from_number] = None
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body=resposta + "\n\nDigite *menu* para voltar."
+        )
+        return
 
     # Saudações iniciais
     if any(palavra in text for palavra in ["oi", "olá", "ola", "hello", "iniciar", "começar"]):
@@ -95,6 +128,42 @@ def handle_message(user_message, from_number):
                  "*A1* - Devolução \n"
                  "*A2* - Acompanhamento de Devolução\n"
                  "*A3* - Garantia de Produtos\n\n"
+                 "Digite *menu* para voltar."
+        )
+
+    elif text in ["5", "suporte"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🤝 *SUPORTE SCHIPPER*\n\n"
+                 "📞 Telefone: (61) 3251-8000\n"
+                 "📧 Email: sac@schipperbrasil.com.br\n\n"
+                 "Digite *menu* para voltar."
+        )
+
+    elif text in ["6", "schipper"]:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="📰 *HISTÓRIA DA SCHIPPER*\n\n"
+                 "Fundada pelo austríaco Gerfried Schipper em 1992"
+                 " a empresa atua como consultora, importadora e "
+                 "distribuidora de utensílios e equipamentos profissionais,"
+                 " nacionais e importados, para Restaurantes, Bares, Hotéis,"
+                 " Hospitais e similares. Com exclusividade em dezenas de marcas mundiais,"
+                 " mais de 6 mil itens em estoque, entregas para todo o Brasil, equipes"
+                 " altamente qualificadas, inovação constante e serviços eficientes, a"
+                 " empresa hoje é líder em seu segmento, tendo sido eleita pelo 12º ano"
+                 " consecutivo a melhor do Brasil.\n\n"
+                 "Digite *menu* para voltar."
+        )
+
+    elif text in ["7", "referência", 'referencia']:
+        client.messages.create(
+            from_=twilio_number,
+            to=from_number,
+            body="🔎 *PESQUISAR REFERÊNCIA*\n\n"
+                 "Digite a *referência* desejada para receber a descrição do produto.\n\n"
                  "Digite *menu* para voltar."
         )
 

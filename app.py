@@ -1,5 +1,5 @@
 from flask import Flask, request
-from bot.handlers_ import handle_message
+from bot.handlers import handle_message
 
 app = Flask(__name__)
 

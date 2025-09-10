@@ -1,3 +1,4 @@
 Flask~=3.1.2
 twilio~=9.7.1
 gunicorn~=20.0.0
+oracle~=3.3.0
