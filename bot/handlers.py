@@ -1,7 +1,8 @@
 import os
 from twilio.rest import Client
 from bot.menus import termos_de_uso_menu, menu_principal
-from bot.db import db_connection   # nova conexão com Oracle
+import pandas as pd
+# from bot.db import db_connection   # nova conexão com Oracle
 
 # Config Twilio
 account_sid = os.environ.get("TWILIO_ACCOUNT_SID")
@@ -14,6 +15,10 @@ CATALOGO_URL = "https://schipperbrasil.com.br/downloads/catalogo_schipper/Cat_Sc
 
 # Estado de usuários
 user_state = {}
+
+# 🔹 Carregar base CSV em memória
+df = pd.read_csv("base10-09.csv", dtype=str)   # força tudo como string
+produtos = {row["codprod"]: row["descricao7"] for _, row in df.iterrows()}
 
 def handle_message(user_message, from_number):
     # Mapeamento dinâmico de opções
@@ -45,19 +50,12 @@ def handle_message(user_message, from_number):
     # ------------------------
     if user_state.get(from_number) == "pesquisa_ref":
         ref = text.upper()
-        try:
-            conn = db_connection()
-            cur = conn.cursor()
-            cur.execute("SELECT descricao7 FROM pcprodut WHERE codprod = :ref", {"ref": ref})
-            row = cur.fetchone()
-            if row:
-                resposta = f"🔎 Referência *{ref}* encontrada:\n\n📌 {row[0]}"
-            else:
-                resposta = f"❌ Não encontrei nenhum produto com a referência *{ref}*."
-            cur.close()
-            conn.close()
-        except Exception as e:
-            resposta = f"⚠ Erro ao consultar banco: {e}"
+        descricao = produtos.get(ref)
+
+        if descricao:
+            resposta = f"🔎 Referência *{ref}* encontrada:\n\n📌 {descricao}"
+        else:
+            resposta = f"❌ Não encontrei nenhum produto com a referência *{ref}*."
 
         # limpar estado
         user_state[from_number] = None
