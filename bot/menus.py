@@ -25,6 +25,6 @@ def menu_principal(client, twilio_number, from_number):
              "*4* - Solicitar Atendimento 🕵️‍♀️\n"
              "*5* - Ajuda e Suporte 🤝\n"
              "*6* - Conhecer a história da Schipper 📰\n"
-             "*7* - Pesquisar uma referência 🔎\n\n"
+             "*7* - Pesquisar código do produto 🔎\n\n"
              "_Digite o número da opção desejada_"
     )

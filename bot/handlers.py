@@ -63,7 +63,7 @@ def handle_message(user_message, from_number):
 
             if response.status_code == 200:
                 data = response.json()
-                resposta = f"🔎 Código do produto *{ref}* encontrada:\n\n📌 {data['descricao7']}"
+                resposta = f"🔎 Código do produto *{ref}* encontrado:\n\n📌 {data['descricao7']}"
             elif response.status_code == 404:
                 resposta = f"❌ Não encontrei nenhum produto com a código do produto *{ref}*."
             else:
@@ -171,13 +171,13 @@ def handle_message(user_message, from_number):
                  "Digite *menu* para voltar."
         )
 
-    elif text in ["7", "referência", 'referencia']:
+    elif text in ["7", "codigo", 'código']:
         user_state[from_number] = "pesquisa_ref"
         client.messages.create(
             from_=twilio_number,
             to=from_number,
-            body="🔎 *PESQUISAR REFERÊNCIA*\n\n"
-                 "Digite a *referência* desejada para receber a descrição do produto.\n\n"
+            body="🔎 *PESQUISAR CÓDIGO DO PRODUTO*\n\n"
+                 "Digite o *código do produto* desejado para receber a descrição do produto.\n\n"
                  "Digite *menu* para voltar."
         )
 
