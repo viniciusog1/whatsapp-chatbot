@@ -13,6 +13,11 @@ client = Client(account_sid, auth_token)
 # 🔹 URL do catálogo hospedado (suba em Render, S3, etc.)
 CATALOGO_URL = "https://schipperbrasil.com.br/downloads/catalogo_schipper/Cat_Schipper_low.pdf"
 
+
+# API Oracle exposta via Ngrok
+API_URL = "https://6482a4ff78e9.ngrok-free.app"   # coloque aqui seu endpoint Ngrok atual
+API_KEY = "minha-chave-super-secreta-2024"        # sua chave de autenticação
+
 # Estado de usuários
 user_state = {}
 
@@ -50,12 +55,22 @@ def handle_message(user_message, from_number):
     # ------------------------
     if user_state.get(from_number) == "pesquisa_ref":
         ref = text.upper()
-        descricao = produtos.get(ref)
+        try:
+            response = requests.get(
+                f"{API_URL}/produto/{ref}",
+                headers={"Authorization": f"Bearer {API_KEY}"}
+            )
 
-        if descricao:
-            resposta = f"🔎 Referência *{ref}* encontrada:\n\n📌 {descricao}"
-        else:
-            resposta = f"❌ Não encontrei nenhum produto com a referência *{ref}*."
+            if response.status_code == 200:
+                data = response.json()
+                resposta = f"🔎 Código do produto *{ref}* encontrada:\n\n📌 {data['descricao7']}"
+            elif response.status_code == 404:
+                resposta = f"❌ Não encontrei nenhum produto com a código do produto *{ref}*."
+            else:
+                resposta = f"⚠ Erro ao consultar API: {response.status_code} - {response.text}"
+
+        except Exception as e:
+            resposta = f"⚠ Erro ao acessar API: {e}"
 
         # limpar estado
         user_state[from_number] = None
@@ -172,6 +187,8 @@ def handle_message(user_message, from_number):
             from_=twilio_number,
             to=from_number,
             body=f"Tipo de atendimento solicitado: *{atendimento_escolhido}*\n\n"
+                 "Sua solictação foi encaminhada para um profissional,"
+                 "por favor, aguarde um instante, nosso profissional já vai atender sua solicitação.\n"
                  "Digite *menu* para voltar."
         )
 
