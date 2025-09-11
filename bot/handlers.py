@@ -188,7 +188,7 @@ def handle_message(user_message, from_number):
             to=from_number,
             body=f"Tipo de atendimento solicitado: *{atendimento_escolhido}*\n\n"
                  "Sua solictação foi encaminhada para um profissional,"
-                 "por favor, aguarde um instante, nosso profissional já vai atender sua solicitação.\n"
+                 "por favor, aguarde um instante, nosso profissional já vai atender sua solicitação.\n\n"
                  "Digite *menu* para voltar."
         )
 
