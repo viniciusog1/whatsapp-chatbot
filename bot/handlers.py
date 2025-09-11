@@ -1,4 +1,5 @@
 import os
+import requests
 from twilio.rest import Client
 from bot.menus import termos_de_uso_menu, menu_principal
 import pandas as pd
