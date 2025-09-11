@@ -2,7 +2,6 @@ import os
 import requests
 from twilio.rest import Client
 from bot.menus import termos_de_uso_menu, menu_principal
-import pandas as pd
 # from bot.db import db_connection   # nova conexão com Oracle
 
 # Config Twilio
@@ -23,8 +22,8 @@ API_KEY = "minha-chave-super-secreta-2024"        # sua chave de autenticação
 user_state = {}
 
 # 🔹 Carregar base CSV em memória
-df = pd.read_csv("base10-09.csv", dtype=str)   # força tudo como string
-produtos = {row["codprod"]: row["descricao7"] for _, row in df.iterrows()}
+# df = pd.read_csv("base10-09.csv", dtype=str)   # força tudo como string
+# produtos = {row["codprod"]: row["descricao7"] for _, row in df.iterrows()}
 
 def handle_message(user_message, from_number):
     # Mapeamento dinâmico de opções
